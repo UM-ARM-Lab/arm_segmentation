@@ -1,0 +1,1 @@
+These files were copied and trimmed down from the pytorch vision repository, original under `references/detection/`.
