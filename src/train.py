@@ -49,6 +49,7 @@ def main():
     for epoch in range(num_epochs):
         train_one_epoch(model, optimizer, data_loader, device, epoch, print_freq=10)
         lr_scheduler.step()
+        # save at each epoch, overwriting the previous checkpoint
         torch.save({'model': model, 'coco': dataset.coco}, 'model.pth')
 
 
