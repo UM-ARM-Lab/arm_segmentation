@@ -1,3 +1,5 @@
+import json
+
 import torch
 import torch.utils.data
 import torchvision
@@ -209,4 +211,15 @@ def get_coco_dataset(root, mode):
     ann_file = root / mode / '_annotations.coco.json'
 
     dataset = CocoDetection(img_folder, ann_file, transforms=transforms)
+
     return dataset
+
+
+def load_colors(root):
+    colors_file = root / "colors.json"
+    if not colors_file.exists():
+        raise RuntimeError(
+            "No colors.json file found! Create `colors.json` in dataset directory to add colors to your labels.")
+    with open(colors_file) as f:
+        class_name_to_color = json.load(f)
+    return class_name_to_color

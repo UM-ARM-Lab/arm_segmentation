@@ -6,19 +6,8 @@ import argparse
 from pathlib import Path
 
 from detection.coco_utils import get_coco_dataset
-from predictor import Predictor
-from viz import viz_predictions
-
-# TODO: move this to a file in the dataset directory
-class_name_to_color = {
-    'battery':     (1, 0, 0),
-    'vacuum_hose': (0, 0.5, 1),
-    'vacuum_neck': (0, 0, 1),
-    'vacuum_head': (1, 0, 1),
-    'robot_feet':  (1, 0.5, 0),
-    'robot_hand':  (1, 1, 0),
-    'mess':        (0, 1, 0.5),
-}
+from arm_segmentation.predictor import Predictor
+from arm_segmentation.viz import viz_predictions
 
 
 def main():
@@ -36,7 +25,7 @@ def main():
 
     for idx, (rgb, _) in enumerate(dataset):
         predictions = pred.predict(rgb)
-        fig, ax = viz_predictions(rgb, predictions, class_name_to_color)
+        fig, ax = viz_predictions(rgb, predictions, pred.colors)
         fig.show()
 
         # Save the visualization

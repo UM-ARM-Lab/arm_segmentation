@@ -11,7 +11,7 @@ import torchvision
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 from torchvision.models.detection.mask_rcnn import MaskRCNNPredictor, MaskRCNN_ResNet50_FPN_Weights
 
-from detection.coco_utils import get_coco_dataset
+from detection.coco_utils import get_coco_dataset, load_colors
 from detection.engine import train_one_epoch
 from detection.utils import collate_fn
 
@@ -23,6 +23,7 @@ def main():
     args = parser.parse_args()
 
     dataset = get_coco_dataset(args.dataset, 'train')
+    colors = load_colors(args.dataset)
 
     torch.manual_seed(1)
 
@@ -50,7 +51,7 @@ def main():
         train_one_epoch(model, optimizer, data_loader, device, epoch, print_freq=10)
         lr_scheduler.step()
         # save at each epoch, overwriting the previous checkpoint
-        torch.save({'model': model, 'coco': dataset.coco}, 'model.pth')
+        torch.save({'model': model, 'coco': dataset.coco, 'colors': colors}, 'model.pth')
 
 
 if __name__ == '__main__':
