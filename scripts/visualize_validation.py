@@ -25,7 +25,9 @@ def main():
     results.mkdir(exist_ok=True)
 
     for idx, (rgb, _) in enumerate(dataset):
-        predictions = pred.predict(rgb)
+        predictions = pred.predict_torch(rgb)  # Torch inputs and outputs by default
+        pred.to_np_inplace(predictions)  # you can explicitly convert to numpy if you want
+        # Or if rgb is a numpy image, you can simply use pred.predict(rgb)
         fig, ax = viz_predictions(rgb, predictions, pred.colors)
         fig.show()
 

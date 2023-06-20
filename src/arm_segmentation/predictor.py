@@ -22,8 +22,7 @@ class Predictor:
         """ Same as predict_torch but assumes numpy input/output """
         rgb = torch.from_numpy(rgb_np / 255.0).permute(2, 0, 1).float()
         predictions = self.predict_torch(rgb)
-        for pred in predictions:
-            pred['mask'] = pred['mask'].squeeze().cpu().numpy()
+        self.to_np_inplace(predictions)
 
         return predictions
 
@@ -47,6 +46,11 @@ class Predictor:
                 }
                 roboflow_style_predictions.append(pred_dict)
         return roboflow_style_predictions
+
+    def to_np_inplace(self, predictions):
+        """ Convert the predictions to numpy, in place! """
+        for pred in predictions:
+            pred['mask'] = pred['mask'].squeeze().cpu().numpy()
 
 
 def get_combined_mask(predictions, desired_class_names: Union[str, List[str]]):

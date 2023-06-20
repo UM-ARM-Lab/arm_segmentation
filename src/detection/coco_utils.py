@@ -202,9 +202,9 @@ class CocoDetection(torchvision.datasets.CocoDetection):
             random_colors = {}
             for cat_dict in self.coco.cats.values():
                 cat_name = cat_dict["name"]
-                random_colors[cat_name] = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+                random_colors[cat_name] = (random.uniform(0, 1), random.uniform(0, 1), random.uniform(0, 1))
             with open(colors_file, "w") as f:
-                json.dump(random_colors, f)
+                json.dump(random_colors, f, indent=2)
         with open(colors_file) as f:
             self.colors = json.load(f)
 
