@@ -19,6 +19,7 @@ You should export your dataset as a COCO style dataset, which stores annotations
     ```
 3. Train
     ```
-    ./train.py path_to_dataset
-    ./visualize_validation.py path_to_dataset
+    # You may need export PYTHONPATH=./src, or you can try pip install -e .
+    ./scripts/train.py path_to_dataset
+    ./scripts/visualize_validation.py path_to_dataset
    ```
