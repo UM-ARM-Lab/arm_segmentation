@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 This script was adapted from the official pytorch object detection tutorial:
 https://pytorch.org/tutorials/intermediate/torchvision_tutorial.html

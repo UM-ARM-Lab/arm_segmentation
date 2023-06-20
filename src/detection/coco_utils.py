@@ -1,4 +1,6 @@
 import json
+import random
+from pathlib import Path
 
 import torch
 import torch.utils.data
@@ -189,9 +191,22 @@ def get_coco_api_from_dataset(dataset):
 
 
 class CocoDetection(torchvision.datasets.CocoDetection):
-    def __init__(self, img_folder, ann_file, transforms):
-        super().__init__(img_folder, ann_file)
+    def __init__(self, img_folder: Path, ann_file: Path, transforms):
+        super().__init__(str(img_folder), str(ann_file))
         self._transforms = transforms
+
+        root = img_folder.parent
+        colors_file = root / "colors.json"
+        if not colors_file.exists():
+            print("No colors.json file found in your dataset! Creating a default one...")
+            random_colors = {}
+            for cat_dict in self.coco.cats.values():
+                cat_name = cat_dict["name"]
+                random_colors[cat_name] = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+            with open(colors_file, "w") as f:
+                json.dump(random_colors, f)
+        with open(colors_file) as f:
+            self.colors = json.load(f)
 
     def __getitem__(self, idx):
         img, target = super().__getitem__(idx)
@@ -213,13 +228,3 @@ def get_coco_dataset(root, mode):
     dataset = CocoDetection(img_folder, ann_file, transforms=transforms)
 
     return dataset
-
-
-def load_colors(root):
-    colors_file = root / "colors.json"
-    if not colors_file.exists():
-        raise RuntimeError(
-            "No colors.json file found! Create `colors.json` in dataset directory to add colors to your labels.")
-    with open(colors_file) as f:
-        class_name_to_color = json.load(f)
-    return class_name_to_color
