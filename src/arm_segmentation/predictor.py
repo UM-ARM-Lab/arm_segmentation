@@ -1,15 +1,21 @@
+from pathlib import Path
 from typing import List, Union
 
 import numpy as np
 import torch
 
 
-class Predictor:
 
-    def __init__(self):
+class Predictor:
+    """
+    The colors are saved at training time, then fixed thereafter and loaded at prediction time. This ensures that
+    the model colors will be consistent, and it means you don't need the original dataset to get colors for inference.
+    """
+
+    def __init__(self, model_path=Path("model.pth")):
         self.device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
-        model_dict = torch.load('model.pth')
+        model_dict = torch.load(model_path)
         self.model = model_dict['model']
         self.model.to(self.device)
         self.model.eval()
@@ -18,7 +24,7 @@ class Predictor:
         self.coco = model_dict['coco']
         self.colors = model_dict['colors']
 
-    def predict(self, rgb_np):
+    def predict(self, rgb_np, min_score_threshold=0.40):
         """ Same as predict_torch but assumes numpy input/output """
         rgb = torch.from_numpy(rgb_np / 255.0).permute(2, 0, 1).float()
         predictions = self.predict_torch(rgb)

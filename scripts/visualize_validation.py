@@ -7,18 +7,19 @@ import argparse
 from pathlib import Path
 
 from detection.coco_utils import get_coco_dataset
-from arm_segmentation.predictor import Predictor
+from arm_segmentation.predictor import Predictor, numpify_predictions
 from arm_segmentation.viz import viz_predictions
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("dataset", type=Path, help="path to dataset")
-
+    parser.add_argument("model_path", type=Path, help="path to .pth file")
     args = parser.parse_args()
 
-    pred = Predictor()
+    pred = Predictor(args.model_path)
 
+    args.dataset = args.dataset.expanduser()
     dataset = get_coco_dataset(args.dataset, 'valid')
 
     results = Path("results")

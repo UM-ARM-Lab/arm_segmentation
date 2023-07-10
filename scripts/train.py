@@ -4,6 +4,7 @@ This script was adapted from the official pytorch object detection tutorial:
 https://pytorch.org/tutorials/intermediate/torchvision_tutorial.html
 """
 import argparse
+import zipfile
 from pathlib import Path
 
 import torch
@@ -22,6 +23,18 @@ def main():
     parser.add_argument("dataset", type=Path, help="path to dataset")
 
     args = parser.parse_args()
+
+    args.dataset = args.dataset.expanduser()
+    if not args.dataset.exists():
+        raise FileNotFoundError(f"dataset path {args.dataset} does not exist")
+
+    # if the dataset is a zip file, unzip it first
+    if args.dataset.suffix == '.zip':
+        print("unzipping dataset first...")
+        dest = args.dataset.parent / args.dataset.stem
+        with zipfile.ZipFile(args.dataset, 'r') as zip_ref:
+            zip_ref.extractall(dest)
+        args.dataset = dest
 
     dataset = get_coco_dataset(args.dataset, 'train')
 
@@ -46,12 +59,14 @@ def main():
 
     lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=3, gamma=0.1)
 
+    model_path = Path('model.pth')
     num_epochs = 10
     for epoch in range(num_epochs):
         train_one_epoch(model, optimizer, data_loader, device, epoch, print_freq=10)
         lr_scheduler.step()
         # save at each epoch, overwriting the previous checkpoint
-        torch.save({'model': model, 'coco': dataset.coco, 'colors': dataset.colors}, 'model.pth')
+        torch.save({'model': model, 'coco': dataset.coco, 'colors': colors}, model_path)
+        print(f"Model saved to {model_path.absolute()}")
 
 
 if __name__ == '__main__':

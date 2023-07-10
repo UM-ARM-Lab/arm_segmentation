@@ -28,13 +28,7 @@ def viz_predictions(rgb, predictions, class_name_to_color: Dict, fig=None, ax=No
 
     ax.imshow(rgb, alpha=0.5)
     for pred in predictions:
-        mask = pred['mask']
-        class_name = pred['class']
-        confidence = pred['confidence']
-        color = class_name_to_color[class_name]
-        mask_rgb = np.ones_like(rgb) * color
-        mask_a = mask[..., None] * confidence * 0.8  # even p(mask)=1 should be slightly transparent
-        mask_rgba = np.concatenate((mask_rgb, mask_a), axis=-1)
+        mask_rgba = viz_prediction(class_name_to_color, pred, rgb)
         ax.imshow(mask_rgba)
 
     if legend:
@@ -42,3 +36,14 @@ def viz_predictions(rgb, predictions, class_name_to_color: Dict, fig=None, ax=No
         ax.legend(custom_lines, class_name_to_color.keys())
 
     return fig, ax
+
+
+def viz_prediction(class_name_to_color, pred, rgb):
+    mask = pred['mask']
+    class_name = pred['class']
+    confidence = pred['confidence']
+    color = class_name_to_color[class_name]
+    mask_rgb = np.ones_like(rgb) * color
+    mask_a = mask[..., None] * confidence * 0.8  # even p(mask)=1 should be slightly transparent
+    mask_rgba = np.concatenate((mask_rgb, mask_a), axis=-1)
+    return mask_rgba
