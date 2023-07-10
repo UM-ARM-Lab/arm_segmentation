@@ -8,3 +8,6 @@
 *.idea
 results
 data
+build
+*.whl
+*.egg-info

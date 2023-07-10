@@ -1,0 +1,25 @@
+[project]
+name = 'arm_segmentation'
+version="0.0.1"
+description="Training and inference of instance segmentation"
+
+license = { file = "LICENSE.txt"}
+
+authors = []
+maintainers = []
+
+classifiers = []
+
+dependencies = [
+    'torch',
+    'torchvision',
+    'pycocotools',
+    'numpy',
+    'matplotlib'
+]
+
+[tool.setuptools]
+
+[build-system]
+requires=["setuptools"]
+build-backend = "setuptools.build_meta"
