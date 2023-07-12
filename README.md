@@ -12,6 +12,13 @@ You should export your dataset as a COCO style dataset, which stores annotations
 
 # Installation & Setup
 
+You can install via pip
+```
+pip install arm_segmentation
+```
+
+Or you can clone the source code and install it that way.
+
 1. Clone this repository
    ```
    git clone git@github.com:UM-ARM-Lab/arm_segmentation.git
