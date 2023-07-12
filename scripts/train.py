@@ -65,7 +65,7 @@ def main():
         train_one_epoch(model, optimizer, data_loader, device, epoch, print_freq=10)
         lr_scheduler.step()
         # save at each epoch, overwriting the previous checkpoint
-        torch.save({'model': model, 'coco': dataset.coco, 'colors': colors}, model_path)
+        torch.save({'model': model, 'coco': dataset.coco, 'colors': dataset.colors}, model_path)
         print(f"Model saved to {model_path.absolute()}")
 
 
