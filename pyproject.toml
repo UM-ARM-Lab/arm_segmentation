@@ -2,11 +2,18 @@
 name = 'arm_segmentation'
 version="0.0.1"
 description="Training and inference of instance segmentation"
+readme = "README.md"
 
-license = { file = "LICENSE.txt"}
+requires-python = ">=3.6"
 
-authors = []
-maintainers = []
+license = { file = "LICENSE.txt" }
+
+authors = [
+    { name = "Peter Mitrano", email = "pmitrano@umich.edu" }
+]
+maintainers = [
+    { name = "Peter Mitrano", email = "pmitrano@umich.edu" }
+]
 
 classifiers = []
 
