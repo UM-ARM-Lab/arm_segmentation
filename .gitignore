@@ -11,3 +11,5 @@ data
 build
 *.whl
 *.egg-info
+dist
+*.gz
