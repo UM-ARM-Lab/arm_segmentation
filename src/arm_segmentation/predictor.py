@@ -15,9 +15,8 @@ class Predictor:
     def __init__(self, model_path=Path("model.pth")):
         self.device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
-        model_dict = torch.load(model_path)
+        model_dict = torch.load(model_path, map_location=self.device)
         self.model = model_dict['model']
-        self.model.to(self.device)
         self.model.eval()
 
         # The COCO dataset object used at training time, used for mapping from ints to class names
