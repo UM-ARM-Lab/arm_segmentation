@@ -41,3 +41,12 @@ Or you can clone the source code and install it that way.
     ./scripts/train.py path_to_dataset
     ./scripts/visualize_validation.py path_to_dataset
    ```
+
+# Inference
+
+```
+    from arm_segmentation.predictor import Predictor
+    predictor = Predictor('path/to/model.pth')
+    # Assumes rgb_np is a [h, w, 3] numpy array. If you have a torch tensor, use `predict_torch` instead.
+    predictions = predictor.predict(rgb_np)
+```
