@@ -12,10 +12,18 @@ You should export your dataset as a COCO style dataset, which stores annotations
 
 # Installation & Setup
 
+## From Pip (recommended)
 You can install via pip
 ```
 pip install arm_segmentation
 ```
+
+Train!
+```
+python -m arm_segmentation.train ~/path/to/datset.zip # can also be the extracted folder instead of zip
+```
+
+## From source
 
 Or you can clone the source code and install it that way.
 
