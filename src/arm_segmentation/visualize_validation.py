@@ -7,7 +7,7 @@ import argparse
 from pathlib import Path
 
 from detection.coco_utils import get_coco_dataset
-from arm_segmentation.predictor import Predictor, numpify_predictions
+from arm_segmentation.predictor import Predictor
 from arm_segmentation.viz import viz_predictions
 
 
